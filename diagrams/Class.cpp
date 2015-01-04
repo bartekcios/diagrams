@@ -56,17 +56,18 @@ bool CClass::FindFunctions()
 					
 					//check if exists 
 					bool fExists = false;
-					for (int i = 0; i < m_szFunctionsList.size(); i++)
+					for (int i = 0; i < m_funcFunctions.size(); i++)
 					{
-						if (m[0] == m_szFunctionsList[i])
+						if (m[0] == m_funcFunctions[i].szName)
 						{
 							fExists = true;
 						}
 					}
 					if (false == fExists)
 					{
-
-						m_szFunctionsList.push_back(m[0]);
+						SFunction sFunction;
+						sFunction.szName = m[0];
+						m_funcFunctions.push_back(sFunction);
 					}
 				}
 				
@@ -85,25 +86,40 @@ bool CClass::FindFunctions()
 
 bool CClass::FindCalls()
 {
-	// variables to regex
-	std::smatch m;
-	std::regex e("([^ ]*)([a-zA-Z]*)(\\()");   // matches words beginning by "sub"
-
 	//open file
 	string line;
 	ifstream myfile(m_szFilesPathCPP);
 	if (myfile.is_open())
 	{
+		bool fFound = false;					// if function found
 		while (getline(myfile, line))
 		{
-			while (std::regex_search(line, m, e))
+			//if function is not found
+			if (false == fFound)
 			{
-				if ("(" != m[0] && "$(" != m[0])
+
+				// check each line for all functions
+				for (int i = 0; i < m_funcFunctions.size(); i++)
 				{
 
+					// variables to regex, every line should be searched
+					int iCounter = 0;										// No found functions
+					std::smatch m;
+					std::regex e(m_funcFunctions[i].szName);
+					while (std::regex_search(line, m, e))
+					{
+						iCounter++;
+						line = m.suffix().str();
+					}
+					if (0 != iCounter)
+					{
+						fFound == true;
+					}
 				}
+			}
+			else
+			{
 
-				line = m.suffix().str();
 			}
 		}
 		myfile.close();
@@ -133,9 +149,9 @@ bool CClass::FindCPPFile()
 
 void CClass::ShowFunctions()
 {
-	for (int i = 0; i < m_szFunctionsList.size(); i++)
+	for (int i = 0; i < m_funcFunctions.size(); i++)
 	{
-		cout << m_szFunctionsList[i] << endl;
+		cout << m_funcFunctions[i].szName << endl;
 	}
 	return;
 }
