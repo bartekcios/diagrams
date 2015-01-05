@@ -18,9 +18,7 @@ CClassManager::~CClassManager()
 
 bool CClassManager::FindClass(string a_szFilesPath)
 {
-	// variables to regex
-	std::smatch m;
-	std::regex e("^(class )([^ ]*)");   // matches words beginning by "sub"
+
 
 	//open file
 	string line;
@@ -29,12 +27,22 @@ bool CClassManager::FindClass(string a_szFilesPath)
 	{
 		while (getline(myfile, line))
 		{
-			while (std::regex_search(line, m, e)) 
-			{
-				CClass oClass(m[2], a_szFilesPath, m_pFilesFinder);
-				m_szClassesList.push_back(oClass);
-				line = m.suffix().str();
-			}
+            //check if line is commented
+            std::smatch m;
+            std::regex e("([//\*])(.*)(\\()");
+
+            if (!std::regex_search(line, m, e))
+            {
+                // variables to regex
+                std::smatch m;
+                std::regex e("^(class )([^ ]*)");
+                if (std::regex_search(line, m, e))
+                {
+                    CClass oClass(m[2], a_szFilesPath, m_pFilesFinder);
+                    m_szClassesList.push_back(oClass);
+                    line = m.suffix().str();
+                }
+            }
 		}
 		myfile.close();
 	}
@@ -75,4 +83,16 @@ bool CClassManager::FindFunctions()
 	}
 
 	return true;
+}
+
+bool CClassManager::FindCallsForFunctions()
+{
+    for (int i = 0; i < m_szClassesList.size(); i++)
+    {
+        m_szClassesList[i].FindCalls();
+    }
+    cout << endl;
+    cout << endl;
+
+    return true;
 }

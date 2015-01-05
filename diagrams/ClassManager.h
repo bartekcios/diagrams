@@ -13,6 +13,7 @@ public:
 	bool FindAllClasses();								// search all classes from FilesFInder m_VectorOfFilesH
 	void ShowAllClasses();								// shows all classes 
 	bool FindFunctions();								// search functions in all classes
+    bool FindCallsForFunctions();                       // search calls for each function in each class
 protected:
 	std::vector <CClass> m_szClassesList;				// list of found and created classes
 
