@@ -100,6 +100,7 @@ bool CClass::FindFunctions()
 
 bool CClass::FindCalls()
 {
+    
 	//open file
 	string line;
 	ifstream myfile(m_szFilesPathCPP);
@@ -186,7 +187,7 @@ bool CClass::FindCalls()
                     iCounterNext++;
                     lineNext = mNext.suffix().str();
                 }
-
+                /*
                 // check each line for all functions - firstly for all functions, after that each function
                 // variables to regex, every line should be searched, creates string with all functions in form f|f1|f2...
                 string szConditions = "";
@@ -202,10 +203,20 @@ bool CClass::FindCalls()
                         szConditions += "|";
                     }
                 }
+                */
+                string szLLL = "([^ ]+)(\\()";
                 std::smatch mAll;
-                std::regex eAll(szConditions);
+                std::regex eAll(szLLL);
                 if (std::regex_search(line, mAll, eAll) && 0 != iCounterPrev)
                 {
+                    if (("if(" != mAll[0]) && ("gate(" != mAll[0]) && ("LOG_INF(" != mAll[0]) && ("LOG_ERR(" != mAll[0]) && ("LOG_WRN(" != mAll[0]) && ("LOG_DBG(" != mAll[0]) && ("(" != mAll[0]))
+                    {
+                        cout << mAll[0] << endl;
+                        m_funcFunctions[iCurrFuncId].szCalls.push_back(mAll[0]);
+                    }
+                    line = m.suffix().str();
+
+                    /*
                     for (int i = 0; i < m_funcFunctions.size(); i++)
                     {
                         string szEach = m_funcFunctions[i].szName;
@@ -216,6 +227,7 @@ bool CClass::FindCalls()
 
                         while (std::regex_search(line, m, eEach))
                         {
+                            
                             int iCallsFuncId = 0;
                             //find function
                             for (int j = 0; j < m_funcFunctions.size(); j++)
@@ -226,18 +238,20 @@ bool CClass::FindCalls()
                                     break;
                                 }
                             }
+                            
                             // puts call function to callers vector
-                            m_funcFunctions[iCurrFuncId].funcCalls.push_back(m_funcFunctions[iCallsFuncId]);
+                            m_funcFunctions[iCurrFuncId].funcCalls.push_back(m[0]);
                             // puts callers function to calls vector
-                            m_funcFunctions[iCallsFuncId].funcCallers.push_back(m_funcFunctions[iCurrFuncId]);
+                            //m_funcFunctions[iCallsFuncId].funcCallers.push_back(m_funcFunctions[iCurrFuncId]);
 
-                            cout << "      : " << m_funcFunctions[iCurrFuncId].funcCalls[m_funcFunctions[iCurrFuncId].funcCalls.size()-1].szName << endl;
-                            cout << "      : " << m_funcFunctions[iCallsFuncId].funcCallers[m_funcFunctions[iCallsFuncId].funcCallers.size() - 1].szName << endl;
+                            cout << "      : " << m_funcFunctions[iCurrFuncId].funcCalls[m_funcFunctions[iCurrFuncId].funcCalls.size()-1] << endl;
+                            
                             
 
                             line = m.suffix().str();
                         }
                     }
+                    */
                 }
                 // check if is end of function
                 if (0 != iCounterPrev && iCounterPrev == iCounterNext)
@@ -246,7 +260,7 @@ bool CClass::FindCalls()
                     fFound = false;
                     iCounterPrev = 0;
                     iCounterNext = 0;
-                    getchar();
+                    //getchar();
                     continue;
                 }
                 else
@@ -257,6 +271,7 @@ bool CClass::FindCalls()
 		}
         
 		myfile.close();
+        SaveCalls();
 	}
 	else
 	{
@@ -288,4 +303,33 @@ void CClass::ShowFunctions()
 		cout << m_funcFunctions[i].szName << endl;
 	}
 	return;
+}
+
+bool CClass::SaveCalls()
+{
+    cout << "save to file" << endl;
+    ofstream myfile;
+    myfile.open("c:\\Users\\ciosebar\\Desktop\\test.txt", ios::app);
+    if (myfile.is_open())
+    {
+        cout << "opened" << endl;
+    }
+    for (int i = 0; i < m_funcFunctions.size(); i++)
+    {
+        for (int j = 0; j < m_funcFunctions[i].szCalls.size(); j++)
+        {
+            string F = m_funcFunctions[i].szName;
+            string S = m_funcFunctions[i].szCalls[j];
+
+            F.erase(F.size() - 1, 1);
+            S.erase(S.size() - 1, 1);
+
+            myfile << F << " -> " << S << endl;
+        }
+    }
+    
+    myfile.close();
+    cout << "saved to file" << endl;
+    //getchar();
+    return true;
 }

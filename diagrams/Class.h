@@ -12,7 +12,7 @@ public:
 	{
 		string szName;
 		vector <SFunction> funcCallers;				// list of functions which calls this function
-		vector <SFunction> funcCalls;				// list of functions which are called by this function
+		vector <string> szCalls;				    // list of functions which are called by this function
 	};
 	CClass(string a_szName, string a_szFilesPathH, CFilesFinder * a_pFilesFinder);
 	~CClass();
@@ -20,6 +20,7 @@ public:
 	bool FindCalls();								// search all calls inside cpp file
 	bool FindCPPFile();								// finds file with the same 
 	void ShowFunctions();							// shows all functions
+    bool SaveCalls();                               // saves all calls to file
 	string m_szName;
 	string m_szFilesHName;
 	string m_szFilesPathH;
@@ -28,6 +29,5 @@ public:
 private:
 	CFilesFinder * m_pFilesFinder;						// pointer to CFilesFinder, used to get files pathes
 	vector <SFunction> m_funcFunctions;
-	vector <string> m_szFunctionsList;
 };
 
