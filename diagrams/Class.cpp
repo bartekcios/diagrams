@@ -151,7 +151,7 @@ bool CClass::FindCalls()
                         std::regex eFind(szCondition);
                         if (std::regex_search(line, mFind, eFind))
                         {
-                            cout << iLinesCounter << mFind[0] << mFind[1] << mFind[2] << endl;
+                            //cout << iLinesCounter << mFind[0] << mFind[1] << mFind[2] << endl;
                             iCurrFuncId = i;
                             fFound = true;
                             break;
@@ -209,10 +209,22 @@ bool CClass::FindCalls()
                 std::regex eAll(szLLL);
                 if (std::regex_search(line, mAll, eAll) && 0 != iCounterPrev)
                 {
-                    if (("if(" != mAll[0]) && ("gate(" != mAll[0]) && ("LOG_INF(" != mAll[0]) && ("LOG_ERR(" != mAll[0]) && ("LOG_WRN(" != mAll[0]) && ("LOG_DBG(" != mAll[0]) && ("(" != mAll[0]))
+					if (("if(" != mAll[0]) && ("gate(" != mAll[0]) && ("LOG_INF(" != mAll[0]) && ("LOG_ERR(" != mAll[0]) && ("LOG_WRN(" != mAll[0]) && ("LOG_DBG(" != mAll[0]) && ("(" != mAll[0]) && ("switch" != mAll[0]))
                     {
-                        cout << mAll[0] << endl;
-                        m_funcFunctions[iCurrFuncId].szCalls.push_back(mAll[0]);
+						//check if function already exists
+						bool fExist = false;
+						for (int i = 0; i < m_funcFunctions[iCurrFuncId].szCalls.size(); i++)
+						{
+							if (mAll[0] == m_funcFunctions[iCurrFuncId].szCalls[i])
+							{
+								fExist = true;
+							}
+						}
+						if (false == fExist)
+						{
+							//cout << mAll[0] << endl;
+							m_funcFunctions[iCurrFuncId].szCalls.push_back(mAll[0]);
+						}
                     }
                     line = m.suffix().str();
 
@@ -256,7 +268,7 @@ bool CClass::FindCalls()
                 // check if is end of function
                 if (0 != iCounterPrev && iCounterPrev == iCounterNext)
                 {
-                    cout << "                  Function is finished, press any button " << endl;
+                    //cout << "                  Function is finished" << endl;
                     fFound = false;
                     iCounterPrev = 0;
                     iCounterNext = 0;
@@ -307,12 +319,16 @@ void CClass::ShowFunctions()
 
 bool CClass::SaveCalls()
 {
-    cout << "save to file" << endl;
+    //cout << "save to file" << endl;
     ofstream myfile;
-    myfile.open("c:\\Users\\ciosebar\\Desktop\\test.txt", ios::app);
+	m_szFilesPathDOT = "c:\\Qt\\" + m_szName + ".dot";
+	myfile.open(m_szFilesPathDOT, ios::trunc);
     if (myfile.is_open())
     {
-        cout << "opened" << endl;
+        //cout << "opened" << endl;
+		myfile << "digraph {" << endl;
+		myfile << "rankdir = LR;" << endl;
+
     }
     for (int i = 0; i < m_funcFunctions.size(); i++)
     {
@@ -324,12 +340,24 @@ bool CClass::SaveCalls()
             F.erase(F.size() - 1, 1);
             S.erase(S.size() - 1, 1);
 
-            myfile << F << " -> " << S << endl;
+			myfile << "\"" << F << "\"" << " -> " << "\"" << S << "\"" << ";" << endl;
         }
     }
-    
+	myfile << "}" << endl;
     myfile.close();
-    cout << "saved to file" << endl;
+	cout << "Class " << m_szName << " saved to file" << endl;
+	CreateGraph();
     //getchar();
     return true;
+}
+
+bool CClass::CreateGraph()
+{
+	
+	//create command
+	string szCommand = m_szGraphVizPath + "dot" + " -Tpng " + m_szFilesPathDOT + " -o " + m_szGraphVizPath + m_szName + ".png";
+	//cout << szCommand;
+	system(szCommand.c_str());
+	cout << "Graph created" << endl;
+	return true;
 }

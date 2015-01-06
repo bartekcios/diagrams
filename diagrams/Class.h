@@ -21,11 +21,13 @@ public:
 	bool FindCPPFile();								// finds file with the same 
 	void ShowFunctions();							// shows all functions
     bool SaveCalls();                               // saves all calls to file
+	bool CreateGraph();								// creates graph for each class
 	string m_szName;
 	string m_szFilesHName;
 	string m_szFilesPathH;
 	string m_szFilesPathCPP;
-	
+	string m_szFilesPathDOT;
+	const string m_szGraphVizPath = "C:\\release\\bin\\";
 private:
 	CFilesFinder * m_pFilesFinder;						// pointer to CFilesFinder, used to get files pathes
 	vector <SFunction> m_funcFunctions;
