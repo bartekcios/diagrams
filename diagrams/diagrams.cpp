@@ -19,8 +19,8 @@ int _tmain(int argc, _TCHAR* argv[])
     {
         t[1] = GetTickCount();
     }
-    //CFilesFinder oFilesFinder("c:\\Users\\ciosebar\\Desktop\\Workarea\\9 setup\\LtmIpcSetup\\backend\\DynamicSettingDB\\");
-	CFilesFinder oFilesFinder("D:\\workarea\\VP2_CVTO\\src\\veh\\LtmIpcSetup\\");
+    CFilesFinder oFilesFinder("D:\\CCM_WA\\VP2_CVTO\\src\\veh\\LtmIpcSetup\\backend\\DynamicSettingDB\\");
+	//CFilesFinder oFilesFinder("D:\\workarea\\VP2_CVTO\\src\\veh\\LtmIpcSetup\\");
 	//CFilesFinder oFilesFinder("C:\\Users\\Bartek\\Documents\\Visual Studio 2013\\Projects\\diagrams\\");
     if (false != fShowTimes)
     {

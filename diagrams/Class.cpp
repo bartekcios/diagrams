@@ -283,7 +283,9 @@ bool CClass::FindCalls()
 		}
         
 		myfile.close();
-        SaveCalls();
+        //SaveAllCalls();
+        SaveCalls("getDiscSettOptList(");
+        cout << "smth" << endl;
 	}
 	else
 	{
@@ -317,7 +319,7 @@ void CClass::ShowFunctions()
 	return;
 }
 
-bool CClass::SaveCalls()
+bool CClass::SaveAllCalls()
 {
     //cout << "save to file" << endl;
     ofstream myfile;
@@ -351,6 +353,69 @@ bool CClass::SaveCalls()
     return true;
 }
 
+bool CClass::SaveCalls(string a_szFunctionName)
+{
+    vector <int> iFunctions;
+    //cout << "save to file" << endl;
+    ofstream myfile;
+    m_szFilesPathDOT = "c:\\Qt\\" + m_szName + ".dot";
+    myfile.open(m_szFilesPathDOT, ios::trunc);
+    if (myfile.is_open())
+    {
+        //cout << "opened" << endl;
+        myfile << "digraph {" << endl;
+        myfile << "rankdir = LR;" << endl;
+    }
+    //find and add id function to vector
+    int iFunctionId = FindFunctionInVector(a_szFunctionName);
+    //if wrong argument
+    if (-1 == iFunctionId)
+    {
+        return false;
+    }
+    iFunctions.push_back(iFunctionId);
+
+    bool fAdded = true;
+
+    while (true == fAdded)
+    {
+        fAdded = false;
+        for (int p = 0; p < iFunctions.size(); p++)
+        {
+            // each call
+            for (int j = 0; j < m_funcFunctions[iFunctions[p]].szCalls.size(); j++)
+            {
+                //if calls function exists in vector
+                bool fExistsIniFunctions = false;
+                for (int h = 0; h < iFunctions.size(); h++)
+                {
+                    if (iFunctions[h] == FindFunctionInVector(m_funcFunctions[iFunctions[p]].szCalls[j]))
+                    {
+                        fExistsIniFunctions = true;
+                    }
+                }
+                if (false == fExistsIniFunctions)
+                {
+                    fAdded = true;
+                    string F = m_funcFunctions[iFunctions[p]].szName;
+                    string S = m_funcFunctions[iFunctions[p]].szCalls[j];
+
+                    F.erase(F.size() - 1, 1);
+                    S.erase(S.size() - 1, 1);
+
+                    myfile << "\"" << F << "\"" << " -> " << "\"" << S << "\"" << ";" << endl;
+                }
+            }
+        }
+    }
+    myfile << "}" << endl;
+    myfile.close();
+    cout << "Class " << m_szName << " saved to file" << endl;
+    CreateGraph();
+    //getchar();
+    return true;
+}
+
 bool CClass::CreateGraph()
 {
 	
@@ -360,4 +425,19 @@ bool CClass::CreateGraph()
 	system(szCommand.c_str());
 	cout << "Graph created" << endl;
 	return true;
+}
+
+int CClass::FindFunctionInVector(string a_szFunctionName)
+{
+    int iRetVal = -1;
+    //find a_szFunctionName function
+    for (int i = 0; i < m_funcFunctions.size(); i++)
+    {
+        if (a_szFunctionName == m_funcFunctions[i].szName)
+        {
+            iRetVal = i;
+        }
+    }
+
+    return iRetVal;
 }

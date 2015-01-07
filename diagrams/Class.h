@@ -20,14 +20,17 @@ public:
 	bool FindCalls();								// search all calls inside cpp file
 	bool FindCPPFile();								// finds file with the same 
 	void ShowFunctions();							// shows all functions
-    bool SaveCalls();                               // saves all calls to file
+    bool SaveAllCalls();                            // saves all calls to file
+    bool SaveCalls(string a_szFunctionName);        // saves calls from a_szFunctionName to file
 	bool CreateGraph();								// creates graph for each class
+    int FindFunctionInVector(string a_szFunctionName);// returns functions index if exists
 	string m_szName;
 	string m_szFilesHName;
 	string m_szFilesPathH;
 	string m_szFilesPathCPP;
 	string m_szFilesPathDOT;
-	const string m_szGraphVizPath = "C:\\release\\bin\\";
+	//const string m_szGraphVizPath = "C:\\release\\bin\\";
+    const string m_szGraphVizPath = "C:\\Users\\ciosebar\\Desktop\\graphviz-2.38\\release\\bin\\";
 private:
 	CFilesFinder * m_pFilesFinder;						// pointer to CFilesFinder, used to get files pathes
 	vector <SFunction> m_funcFunctions;
