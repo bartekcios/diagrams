@@ -31,7 +31,7 @@ CClass::CClass(string a_szName, string a_szFilesPathH, CFilesFinder * a_pFilesFi
 	
 	if (false == FindCPPFile())
 	{
-		cout << "[WARR]: not found cpp file" << endl;
+        printf("[WARR]: not found cpp file\n");
 	}
 }
 
@@ -51,7 +51,7 @@ bool CClass::FindFunctions()
 		{
             //check if line is commented
             std::smatch m;
-            std::regex e("([//\*])(.*)(\\()");
+            std::regex e("([//\*]|[////])(.*)(\\()");
 
             if (!std::regex_search(line, m, e))
             {
@@ -65,6 +65,7 @@ bool CClass::FindFunctions()
 
                         //check if exists 
                         bool fExists = false;
+                        /*
                         for (int i = 0; i < m_funcFunctions.size(); i++)
                         {
                             if (m[0] == m_funcFunctions[i].szName)
@@ -79,6 +80,10 @@ bool CClass::FindFunctions()
                             sFunction.szName = m[0];
                             m_funcFunctions.push_back(sFunction);
                         }
+                        */
+                        SFunction sFunction;
+                        sFunction.szName = m[0];
+                        m_funcFunctions.push_back(sFunction);
 
                     }
 
@@ -86,12 +91,14 @@ bool CClass::FindFunctions()
                 }
             }
 		}
+
 		myfile.close();
         
 	}
 	else
 	{
-		cout << "Unable to open file: " << m_szFilesPathH << endl;
+        printf("Unable to open file: %s\n", m_szFilesPathH.c_str());
+
 		return false;
 	}
 
@@ -119,7 +126,6 @@ bool CClass::FindCalls()
                 szConditions += "|";
             }
         }
-        //cout << szConditions << endl << endl;
         
         std::smatch m;
         std::regex e(szConditions);
@@ -151,7 +157,6 @@ bool CClass::FindCalls()
                         std::regex eFind(szCondition);
                         if (std::regex_search(line, mFind, eFind))
                         {
-                            //cout << iLinesCounter << mFind[0] << mFind[1] << mFind[2] << endl;
                             iCurrFuncId = i;
                             fFound = true;
                             break;
@@ -175,15 +180,11 @@ bool CClass::FindCalls()
                 // count No {} chars
                 while (std::regex_search(linePrev, mPrev, ePrev))
                 {
-                    //cout << "found {" << endl;
-                    //cout << iCounterPrev;
                     ++iCounterPrev;
-                    //cout << iCounterPrev << endl;
                     linePrev = mPrev.suffix().str();
                 }
                 while (std::regex_search(lineNext, mNext, eNext))
                 {
-                    //cout << "found }" << endl;
                     iCounterNext++;
                     lineNext = mNext.suffix().str();
                 }
@@ -222,74 +223,35 @@ bool CClass::FindCalls()
 						}
 						if (false == fExist)
 						{
-							//cout << mAll[0] << endl;
 							m_funcFunctions[iCurrFuncId].szCalls.push_back(mAll[0]);
 						}
                     }
-                    line = m.suffix().str();
-
-                    /*
-                    for (int i = 0; i < m_funcFunctions.size(); i++)
-                    {
-                        string szEach = m_funcFunctions[i].szName;
-                        szEach[szEach.size() - 1] = '\\';
-                        szEach += '(';
-                        std::regex eEach(szEach);
-                        
-
-                        while (std::regex_search(line, m, eEach))
-                        {
-                            
-                            int iCallsFuncId = 0;
-                            //find function
-                            for (int j = 0; j < m_funcFunctions.size(); j++)
-                            {
-                                if (m_funcFunctions[j].szName == m[0])
-                                {
-                                    iCallsFuncId = j;
-                                    break;
-                                }
-                            }
-                            
-                            // puts call function to callers vector
-                            m_funcFunctions[iCurrFuncId].funcCalls.push_back(m[0]);
-                            // puts callers function to calls vector
-                            //m_funcFunctions[iCallsFuncId].funcCallers.push_back(m_funcFunctions[iCurrFuncId]);
-
-                            cout << "      : " << m_funcFunctions[iCurrFuncId].funcCalls[m_funcFunctions[iCurrFuncId].funcCalls.size()-1] << endl;
-                            
-                            
-
-                            line = m.suffix().str();
-                        }
-                    }
-                    */
+                    line = m.suffix().str();                  
                 }
                 // check if is end of function
                 if (0 != iCounterPrev && iCounterPrev == iCounterNext)
                 {
-                    //cout << "                  Function is finished" << endl;
                     fFound = false;
                     iCounterPrev = 0;
                     iCounterNext = 0;
-                    //getchar();
+
                     continue;
                 }
                 else
                 {
-                    //cout << line << endl;
+
                 }
 			}
 		}
         
 		myfile.close();
-        //SaveAllCalls();
-        SaveCalls("getDiscSettOptList(");
-        cout << "smth" << endl;
+        SaveAllCalls();
+        //SaveCalls("getDiscSettOptList(");
+        printf("smth\n");
 	}
 	else
 	{
-		cout << "Unable to open file: " << m_szFilesPathH << endl;
+        printf("Unable to open file: %s\n", m_szFilesPathH.c_str());
 		return false;
 	}
 	return true;
@@ -302,7 +264,7 @@ bool CClass::FindCPPFile()
 		if (m_szFilesHName == m_pFilesFinder->m_VectorOfFilesCPP[i].szNameOfFile)
 		{
 			m_szFilesPathCPP = m_pFilesFinder->m_VectorOfFilesCPP[i].szPathToFile;
-			//cout << m_szFilesPathCPP << endl;
+
 			return true;
 		}
 	}
@@ -314,20 +276,18 @@ void CClass::ShowFunctions()
 {
 	for (int i = 0; i < m_funcFunctions.size(); i++)
 	{
-		cout << m_funcFunctions[i].szName << endl;
+        printf("  %s\n", m_funcFunctions[i].szName.c_str());
 	}
 	return;
 }
 
 bool CClass::SaveAllCalls()
 {
-    //cout << "save to file" << endl;
     ofstream myfile;
 	m_szFilesPathDOT = "c:\\Qt\\" + m_szName + ".dot";
 	myfile.open(m_szFilesPathDOT, ios::trunc);
     if (myfile.is_open())
     {
-        //cout << "opened" << endl;
 		myfile << "digraph {" << endl;
 		myfile << "rankdir = LR;" << endl;
 
@@ -347,22 +307,19 @@ bool CClass::SaveAllCalls()
     }
 	myfile << "}" << endl;
     myfile.close();
-	cout << "Class " << m_szName << " saved to file" << endl;
+    printf("Class %s saved to file\n", m_szName.c_str());
 	CreateGraph();
-    //getchar();
     return true;
 }
 
 bool CClass::SaveCalls(string a_szFunctionName)
 {
     vector <int> iFunctions;
-    //cout << "save to file" << endl;
     ofstream myfile;
     m_szFilesPathDOT = "c:\\Qt\\" + m_szName + ".dot";
     myfile.open(m_szFilesPathDOT, ios::trunc);
     if (myfile.is_open())
     {
-        //cout << "opened" << endl;
         myfile << "digraph {" << endl;
         myfile << "rankdir = LR;" << endl;
     }
@@ -410,9 +367,9 @@ bool CClass::SaveCalls(string a_szFunctionName)
     }
     myfile << "}" << endl;
     myfile.close();
-    cout << "Class " << m_szName << " saved to file" << endl;
+    printf("Class %s saved to file", m_szName.c_str());
     CreateGraph();
-    //getchar();
+
     return true;
 }
 
@@ -421,9 +378,10 @@ bool CClass::CreateGraph()
 	
 	//create command
 	string szCommand = m_szGraphVizPath + "dot" + " -Tpng " + m_szFilesPathDOT + " -o " + m_szGraphVizPath + m_szName + ".png";
-	//cout << szCommand;
+
 	system(szCommand.c_str());
-	cout << "Graph created" << endl;
+    printf("Graph created\n");
+
 	return true;
 }
 

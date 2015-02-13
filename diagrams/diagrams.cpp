@@ -13,7 +13,7 @@ using namespace std;
 int _tmain(int argc, _TCHAR* argv[])
 {
     bool fShowTimes = true;
-    DWORD t[100];
+    DWORD t[2];
 
     if (false != fShowTimes)
     {
@@ -25,7 +25,7 @@ int _tmain(int argc, _TCHAR* argv[])
     if (false != fShowTimes)
     {
         t[2] = GetTickCount() - t[1];
-        cout << "oFilesFinder() : " << t[2] << endl;
+        printf("oFilesFinder() :%d\n", t[2]);
     }
 
     if (false != fShowTimes)
@@ -37,7 +37,7 @@ int _tmain(int argc, _TCHAR* argv[])
     if (false != fShowTimes)
     {
         t[2] = GetTickCount() - t[1];
-        cout << "oFilesFinder.FindFilesH() : " << t[2] << endl;
+        printf("oFilesFinder.FindFilesH() :%d\n", t[2]);
     }
 
     if (false != fShowTimes)
@@ -49,7 +49,7 @@ int _tmain(int argc, _TCHAR* argv[])
     if (false != fShowTimes)
     {
         t[2] = GetTickCount() - t[1];
-        cout << "oFilesFinder.FindFilesCPP() : " << t[2] << endl;
+        printf("oFilesFinder.FindFilesCPP() :%d\n", t[2]);
     }
 
 	oFilesFinder.ShowHCounter();
@@ -63,7 +63,7 @@ int _tmain(int argc, _TCHAR* argv[])
     if (false != fShowTimes)
     {
         t[2] = GetTickCount() - t[1];
-        cout << "oClassManager() : " << t[2] << endl;
+        printf("oClassManager() :%d\n", t[2]);
     }
 
     if (false != fShowTimes)
@@ -74,9 +74,9 @@ int _tmain(int argc, _TCHAR* argv[])
     if (false != fShowTimes)
     {
         t[2] = GetTickCount() - t[1];
-        cout << "oClassManager.FindAllClasses() : " << t[2] << endl;
+        printf("oClassManager.FindAllClasses() :%d\n", t[2]);
     }
-
+    
     if (false != fShowTimes)
     {
         t[1] = GetTickCount();
@@ -85,10 +85,10 @@ int _tmain(int argc, _TCHAR* argv[])
     if (false != fShowTimes)
     {
         t[2] = GetTickCount() - t[1];
-        cout << "oClassManager.FindFunctions() : " << t[2] << endl;
+        printf("oClassManager.FindFunctions() :%d\n", t[2]);
     }
-
-	//oClassManager.ShowAllClasses();
+    
+    //oClassManager.ShowAllClasses();
 
     if (false != fShowTimes)
     {
@@ -98,11 +98,12 @@ int _tmain(int argc, _TCHAR* argv[])
     if (false != fShowTimes)
     {
         t[2] = GetTickCount() - t[1];
-        cout << "oClassManager.FindCallsForFunctions() : " << t[2] << endl;
+        printf("oClassManager.FindCallsForFunctions() :%d\n", t[2]);
     }
 
 
-	cout << "Work finished" << endl;
+    printf("Work finished\n");
+
 	getchar();
 	return 0;
 }

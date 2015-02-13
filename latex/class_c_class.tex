@@ -1,0 +1,178 @@
+\hypertarget{class_c_class}{\section{C\+Class Class Reference}
+\label{class_c_class}\index{C\+Class@{C\+Class}}
+}
+
+
+{\ttfamily \#include $<$Class.\+h$>$}
+
+
+
+Collaboration diagram for C\+Class\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=215pt]{class_c_class__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_c_class_1_1_s_function}{S\+Function}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_c_class_a9d835b0d9c9cbc2abb5859f5839cc768}{C\+Class} (string a\+\_\+sz\+Name, string a\+\_\+sz\+Files\+Path\+H, \hyperlink{class_c_files_finder}{C\+Files\+Finder} $\ast$a\+\_\+p\+Files\+Finder)
+\item 
+\hyperlink{class_c_class_ab3bd712c48cc40f0e8b1cebe714dd2ed}{$\sim$\+C\+Class} ()
+\item 
+bool \hyperlink{class_c_class_a23774d2a60493cba0f87f2ccce1112e9}{Find\+Functions} ()
+\item 
+bool \hyperlink{class_c_class_a0a6b7022064d70e613755b46f71bfb3e}{Find\+Calls} ()
+\item 
+bool \hyperlink{class_c_class_a60f873762e2cf01154d819e963983f16}{Find\+C\+P\+P\+File} ()
+\item 
+void \hyperlink{class_c_class_aa4a34bb2e8c824dda17c8a12569de25a}{Show\+Functions} ()
+\item 
+bool \hyperlink{class_c_class_a1a1b258d491f553ba7db631a9a7ed9b5}{Save\+All\+Calls} ()
+\item 
+bool \hyperlink{class_c_class_aaae438dee1363c920c18bd96a29220fd}{Save\+Calls} (string a\+\_\+sz\+Function\+Name)
+\item 
+bool \hyperlink{class_c_class_a7fe0dadc365b5a396e5d14938061a699}{Create\+Graph} ()
+\item 
+int \hyperlink{class_c_class_a8c2b52a935357403b2599650f8d0cd37}{Find\+Function\+In\+Vector} (string a\+\_\+sz\+Function\+Name)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+string \hyperlink{class_c_class_ae7f5bac3dd30935df8d31dacacfea3e2}{m\+\_\+sz\+Name}
+\item 
+string \hyperlink{class_c_class_a15cee6cfe5a893a807799fb33d53db99}{m\+\_\+sz\+Files\+H\+Name}
+\item 
+string \hyperlink{class_c_class_a590754a9bdd5a6fc0104378da2fb7891}{m\+\_\+sz\+Files\+Path\+H}
+\item 
+string \hyperlink{class_c_class_a684985105ee38e9face97c886bcb86ce}{m\+\_\+sz\+Files\+Path\+C\+P\+P}
+\item 
+string \hyperlink{class_c_class_a4cf97b0cde501346ac139deaeab2573a}{m\+\_\+sz\+Files\+Path\+D\+O\+T}
+\item 
+const string \hyperlink{class_c_class_a8ee7eb6ac6ebd9f4b31324f9daeb07c2}{m\+\_\+sz\+Graph\+Viz\+Path} = \char`\"{}C\+:\textbackslash{}\textbackslash{}\+Users\textbackslash{}\textbackslash{}ciosebar\textbackslash{}\textbackslash{}\+Desktop\textbackslash{}\textbackslash{}graphviz-\/2.\+38\textbackslash{}\textbackslash{}release\textbackslash{}\textbackslash{}bin\textbackslash{}\textbackslash{}\char`\"{}
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_c_files_finder}{C\+Files\+Finder} $\ast$ \hyperlink{class_c_class_a253ea247276cd6daeed278c17bebd67a}{m\+\_\+p\+Files\+Finder}
+\item 
+vector$<$ \hyperlink{struct_c_class_1_1_s_function}{S\+Function} $>$ \hyperlink{class_c_class_a1468409456184a03f237f28f6004a514}{m\+\_\+func\+Functions}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_c_class_a9d835b0d9c9cbc2abb5859f5839cc768}{\index{C\+Class@{C\+Class}!C\+Class@{C\+Class}}
+\index{C\+Class@{C\+Class}!C\+Class@{C\+Class}}
+\subsubsection[{C\+Class}]{\setlength{\rightskip}{0pt plus 5cm}C\+Class\+::\+C\+Class (
+\begin{DoxyParamCaption}
+\item[{string}]{a\+\_\+sz\+Name, }
+\item[{string}]{a\+\_\+sz\+Files\+Path\+H, }
+\item[{{\bf C\+Files\+Finder} $\ast$}]{a\+\_\+p\+Files\+Finder}
+\end{DoxyParamCaption}
+)}}\label{class_c_class_a9d835b0d9c9cbc2abb5859f5839cc768}
+\hypertarget{class_c_class_ab3bd712c48cc40f0e8b1cebe714dd2ed}{\index{C\+Class@{C\+Class}!````~C\+Class@{$\sim$\+C\+Class}}
+\index{````~C\+Class@{$\sim$\+C\+Class}!C\+Class@{C\+Class}}
+\subsubsection[{$\sim$\+C\+Class}]{\setlength{\rightskip}{0pt plus 5cm}C\+Class\+::$\sim$\+C\+Class (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_c_class_ab3bd712c48cc40f0e8b1cebe714dd2ed}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_c_class_a7fe0dadc365b5a396e5d14938061a699}{\index{C\+Class@{C\+Class}!Create\+Graph@{Create\+Graph}}
+\index{Create\+Graph@{Create\+Graph}!C\+Class@{C\+Class}}
+\subsubsection[{Create\+Graph}]{\setlength{\rightskip}{0pt plus 5cm}bool C\+Class\+::\+Create\+Graph (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_c_class_a7fe0dadc365b5a396e5d14938061a699}
+\hypertarget{class_c_class_a0a6b7022064d70e613755b46f71bfb3e}{\index{C\+Class@{C\+Class}!Find\+Calls@{Find\+Calls}}
+\index{Find\+Calls@{Find\+Calls}!C\+Class@{C\+Class}}
+\subsubsection[{Find\+Calls}]{\setlength{\rightskip}{0pt plus 5cm}bool C\+Class\+::\+Find\+Calls (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_c_class_a0a6b7022064d70e613755b46f71bfb3e}
+\hypertarget{class_c_class_a60f873762e2cf01154d819e963983f16}{\index{C\+Class@{C\+Class}!Find\+C\+P\+P\+File@{Find\+C\+P\+P\+File}}
+\index{Find\+C\+P\+P\+File@{Find\+C\+P\+P\+File}!C\+Class@{C\+Class}}
+\subsubsection[{Find\+C\+P\+P\+File}]{\setlength{\rightskip}{0pt plus 5cm}bool C\+Class\+::\+Find\+C\+P\+P\+File (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_c_class_a60f873762e2cf01154d819e963983f16}
+\hypertarget{class_c_class_a8c2b52a935357403b2599650f8d0cd37}{\index{C\+Class@{C\+Class}!Find\+Function\+In\+Vector@{Find\+Function\+In\+Vector}}
+\index{Find\+Function\+In\+Vector@{Find\+Function\+In\+Vector}!C\+Class@{C\+Class}}
+\subsubsection[{Find\+Function\+In\+Vector}]{\setlength{\rightskip}{0pt plus 5cm}int C\+Class\+::\+Find\+Function\+In\+Vector (
+\begin{DoxyParamCaption}
+\item[{string}]{a\+\_\+sz\+Function\+Name}
+\end{DoxyParamCaption}
+)}}\label{class_c_class_a8c2b52a935357403b2599650f8d0cd37}
+\hypertarget{class_c_class_a23774d2a60493cba0f87f2ccce1112e9}{\index{C\+Class@{C\+Class}!Find\+Functions@{Find\+Functions}}
+\index{Find\+Functions@{Find\+Functions}!C\+Class@{C\+Class}}
+\subsubsection[{Find\+Functions}]{\setlength{\rightskip}{0pt plus 5cm}bool C\+Class\+::\+Find\+Functions (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_c_class_a23774d2a60493cba0f87f2ccce1112e9}
+\hypertarget{class_c_class_a1a1b258d491f553ba7db631a9a7ed9b5}{\index{C\+Class@{C\+Class}!Save\+All\+Calls@{Save\+All\+Calls}}
+\index{Save\+All\+Calls@{Save\+All\+Calls}!C\+Class@{C\+Class}}
+\subsubsection[{Save\+All\+Calls}]{\setlength{\rightskip}{0pt plus 5cm}bool C\+Class\+::\+Save\+All\+Calls (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_c_class_a1a1b258d491f553ba7db631a9a7ed9b5}
+\hypertarget{class_c_class_aaae438dee1363c920c18bd96a29220fd}{\index{C\+Class@{C\+Class}!Save\+Calls@{Save\+Calls}}
+\index{Save\+Calls@{Save\+Calls}!C\+Class@{C\+Class}}
+\subsubsection[{Save\+Calls}]{\setlength{\rightskip}{0pt plus 5cm}bool C\+Class\+::\+Save\+Calls (
+\begin{DoxyParamCaption}
+\item[{string}]{a\+\_\+sz\+Function\+Name}
+\end{DoxyParamCaption}
+)}}\label{class_c_class_aaae438dee1363c920c18bd96a29220fd}
+\hypertarget{class_c_class_aa4a34bb2e8c824dda17c8a12569de25a}{\index{C\+Class@{C\+Class}!Show\+Functions@{Show\+Functions}}
+\index{Show\+Functions@{Show\+Functions}!C\+Class@{C\+Class}}
+\subsubsection[{Show\+Functions}]{\setlength{\rightskip}{0pt plus 5cm}void C\+Class\+::\+Show\+Functions (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_c_class_aa4a34bb2e8c824dda17c8a12569de25a}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_c_class_a1468409456184a03f237f28f6004a514}{\index{C\+Class@{C\+Class}!m\+\_\+func\+Functions@{m\+\_\+func\+Functions}}
+\index{m\+\_\+func\+Functions@{m\+\_\+func\+Functions}!C\+Class@{C\+Class}}
+\subsubsection[{m\+\_\+func\+Functions}]{\setlength{\rightskip}{0pt plus 5cm}vector$<${\bf S\+Function}$>$ C\+Class\+::m\+\_\+func\+Functions\hspace{0.3cm}{\ttfamily [private]}}}\label{class_c_class_a1468409456184a03f237f28f6004a514}
+\hypertarget{class_c_class_a253ea247276cd6daeed278c17bebd67a}{\index{C\+Class@{C\+Class}!m\+\_\+p\+Files\+Finder@{m\+\_\+p\+Files\+Finder}}
+\index{m\+\_\+p\+Files\+Finder@{m\+\_\+p\+Files\+Finder}!C\+Class@{C\+Class}}
+\subsubsection[{m\+\_\+p\+Files\+Finder}]{\setlength{\rightskip}{0pt plus 5cm}{\bf C\+Files\+Finder}$\ast$ C\+Class\+::m\+\_\+p\+Files\+Finder\hspace{0.3cm}{\ttfamily [private]}}}\label{class_c_class_a253ea247276cd6daeed278c17bebd67a}
+\hypertarget{class_c_class_a15cee6cfe5a893a807799fb33d53db99}{\index{C\+Class@{C\+Class}!m\+\_\+sz\+Files\+H\+Name@{m\+\_\+sz\+Files\+H\+Name}}
+\index{m\+\_\+sz\+Files\+H\+Name@{m\+\_\+sz\+Files\+H\+Name}!C\+Class@{C\+Class}}
+\subsubsection[{m\+\_\+sz\+Files\+H\+Name}]{\setlength{\rightskip}{0pt plus 5cm}string C\+Class\+::m\+\_\+sz\+Files\+H\+Name}}\label{class_c_class_a15cee6cfe5a893a807799fb33d53db99}
+\hypertarget{class_c_class_a684985105ee38e9face97c886bcb86ce}{\index{C\+Class@{C\+Class}!m\+\_\+sz\+Files\+Path\+C\+P\+P@{m\+\_\+sz\+Files\+Path\+C\+P\+P}}
+\index{m\+\_\+sz\+Files\+Path\+C\+P\+P@{m\+\_\+sz\+Files\+Path\+C\+P\+P}!C\+Class@{C\+Class}}
+\subsubsection[{m\+\_\+sz\+Files\+Path\+C\+P\+P}]{\setlength{\rightskip}{0pt plus 5cm}string C\+Class\+::m\+\_\+sz\+Files\+Path\+C\+P\+P}}\label{class_c_class_a684985105ee38e9face97c886bcb86ce}
+\hypertarget{class_c_class_a4cf97b0cde501346ac139deaeab2573a}{\index{C\+Class@{C\+Class}!m\+\_\+sz\+Files\+Path\+D\+O\+T@{m\+\_\+sz\+Files\+Path\+D\+O\+T}}
+\index{m\+\_\+sz\+Files\+Path\+D\+O\+T@{m\+\_\+sz\+Files\+Path\+D\+O\+T}!C\+Class@{C\+Class}}
+\subsubsection[{m\+\_\+sz\+Files\+Path\+D\+O\+T}]{\setlength{\rightskip}{0pt plus 5cm}string C\+Class\+::m\+\_\+sz\+Files\+Path\+D\+O\+T}}\label{class_c_class_a4cf97b0cde501346ac139deaeab2573a}
+\hypertarget{class_c_class_a590754a9bdd5a6fc0104378da2fb7891}{\index{C\+Class@{C\+Class}!m\+\_\+sz\+Files\+Path\+H@{m\+\_\+sz\+Files\+Path\+H}}
+\index{m\+\_\+sz\+Files\+Path\+H@{m\+\_\+sz\+Files\+Path\+H}!C\+Class@{C\+Class}}
+\subsubsection[{m\+\_\+sz\+Files\+Path\+H}]{\setlength{\rightskip}{0pt plus 5cm}string C\+Class\+::m\+\_\+sz\+Files\+Path\+H}}\label{class_c_class_a590754a9bdd5a6fc0104378da2fb7891}
+\hypertarget{class_c_class_a8ee7eb6ac6ebd9f4b31324f9daeb07c2}{\index{C\+Class@{C\+Class}!m\+\_\+sz\+Graph\+Viz\+Path@{m\+\_\+sz\+Graph\+Viz\+Path}}
+\index{m\+\_\+sz\+Graph\+Viz\+Path@{m\+\_\+sz\+Graph\+Viz\+Path}!C\+Class@{C\+Class}}
+\subsubsection[{m\+\_\+sz\+Graph\+Viz\+Path}]{\setlength{\rightskip}{0pt plus 5cm}const string C\+Class\+::m\+\_\+sz\+Graph\+Viz\+Path = \char`\"{}C\+:\textbackslash{}\textbackslash{}\+Users\textbackslash{}\textbackslash{}ciosebar\textbackslash{}\textbackslash{}\+Desktop\textbackslash{}\textbackslash{}graphviz-\/2.\+38\textbackslash{}\textbackslash{}release\textbackslash{}\textbackslash{}bin\textbackslash{}\textbackslash{}\char`\"{}}}\label{class_c_class_a8ee7eb6ac6ebd9f4b31324f9daeb07c2}
+\hypertarget{class_c_class_ae7f5bac3dd30935df8d31dacacfea3e2}{\index{C\+Class@{C\+Class}!m\+\_\+sz\+Name@{m\+\_\+sz\+Name}}
+\index{m\+\_\+sz\+Name@{m\+\_\+sz\+Name}!C\+Class@{C\+Class}}
+\subsubsection[{m\+\_\+sz\+Name}]{\setlength{\rightskip}{0pt plus 5cm}string C\+Class\+::m\+\_\+sz\+Name}}\label{class_c_class_ae7f5bac3dd30935df8d31dacacfea3e2}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+diagrams/\hyperlink{_class_8h}{Class.\+h}\item 
+diagrams/\hyperlink{_class_8cpp}{Class.\+cpp}\end{DoxyCompactItemize}

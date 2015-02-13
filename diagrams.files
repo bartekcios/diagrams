@@ -1,0 +1,10 @@
+diagrams/Class.cpp
+diagrams/Class.h
+diagrams/ClassManager.cpp
+diagrams/ClassManager.h
+diagrams/diagrams.cpp
+diagrams/FilesFinder.cpp
+diagrams/FilesFinder.h
+diagrams/stdafx.cpp
+diagrams/stdafx.h
+diagrams/targetver.h

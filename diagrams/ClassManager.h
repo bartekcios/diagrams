@@ -14,8 +14,9 @@ public:
 	void ShowAllClasses();								// shows all classes 
 	bool FindFunctions();								// search functions in all classes
     bool FindCallsForFunctions();                       // search calls for each function in each class
+    std::vector <CClass> m_szClassesList;				// list of found and created classes
 protected:
-	std::vector <CClass> m_szClassesList;				// list of found and created classes
+
 
 private:
 	CFilesFinder * m_pFilesFinder;						// pointer to CFilesFinder, used to get files pathes

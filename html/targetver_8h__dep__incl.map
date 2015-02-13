@@ -1,0 +1,8 @@
+<map id="diagrams/targetver.h" name="diagrams/targetver.h">
+<area shape="rect" id="node2" href="$stdafx_8h.html" title="diagrams/stdafx.h" alt="" coords="394,80,519,107"/>
+<area shape="rect" id="node3" href="$_class_8cpp.html" title="diagrams/Class.cpp" alt="" coords="5,155,143,181"/>
+<area shape="rect" id="node4" href="$_class_manager_8cpp.html" title="diagrams/ClassManager.cpp" alt="" coords="167,155,354,181"/>
+<area shape="rect" id="node5" href="$diagrams_8cpp.html" title="diagrams/diagrams.cpp" alt="" coords="378,155,535,181"/>
+<area shape="rect" id="node6" href="$_files_finder_8cpp.html" title="diagrams/FilesFinder.cpp" alt="" coords="559,155,727,181"/>
+<area shape="rect" id="node7" href="$stdafx_8cpp.html" title="diagrams/stdafx.cpp" alt="" coords="751,155,890,181"/>
+</map>

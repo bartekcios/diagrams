@@ -68,9 +68,7 @@ bool CFilesFinder::FindFilesH()
 
 bool CFilesFinder::FindFilesH(string a_RootDirectory)
 
-{
-	//cout << endl << "FindFilesH: " << a_RootDirectory << endl;
-	
+{	
 	//searching for subdirectories
 	//prepare path to use
 	std::wstring wsRootDirecoryHDir = std::wstring(a_RootDirectory.begin(), a_RootDirectory.end());
@@ -170,9 +168,7 @@ bool CFilesFinder::FindFilesCPP()
 
 bool CFilesFinder::FindFilesCPP(string a_RootDirectory)
 
-{
-	//cout << endl << "FindFilesCPP: " << a_RootDirectory << endl;
-	
+{	
 	//searching for subdirectories
 	//prepare path to use
 	std::wstring wsRootDirecoryCPPDir = std::wstring(a_RootDirectory.begin(), a_RootDirectory.end());
@@ -223,10 +219,10 @@ bool CFilesFinder::FindFilesCPP(string a_RootDirectory)
 void CFilesFinder::ShowFilesH()
 {
 	for (int i = 0; i < m_VectorOfFilesH.size(); i++)
-	{ 
-		cout << "File: " << m_VectorOfFilesH[i].szNameOfFileWExtension << endl;
-		cout << "File: " << m_VectorOfFilesH[i].szNameOfFile << endl;
-		//cout << " Path: " << m_VectorOfFilesH[i].szPathToFile << endl;
+	{
+        printf("File: %s\n", m_VectorOfFilesH[i].szNameOfFileWExtension.c_str());
+        printf("File: %s\n", m_VectorOfFilesH[i].szNameOfFile.c_str());
+        //printf("Path: %s\n", m_VectorOfFilesH[i].szPathToFile.c_str());
 	}
 	return;
 }
@@ -235,9 +231,9 @@ void CFilesFinder::ShowFilesCPP()
 {
 	for (int i = 0; i < m_VectorOfFilesCPP.size(); i++)
 	{
-		cout << "File: " << m_VectorOfFilesCPP[i].szNameOfFileWExtension << endl;
-		cout << "File: " << m_VectorOfFilesCPP[i].szNameOfFile << endl;
-		//cout << " Path: " << m_VectorOfFilesCPP[i].szPathToFile << endl;
+        printf("File: %s\n", m_VectorOfFilesCPP[i].szNameOfFileWExtension.c_str());
+        printf("File: %s\n", m_VectorOfFilesCPP[i].szNameOfFile.c_str());
+        //printf("Path: %s\n", m_VectorOfFilesCPP[i].szPathToFile.c_str());
 	}
 
 	return;
@@ -245,14 +241,14 @@ void CFilesFinder::ShowFilesCPP()
 
 void CFilesFinder::ShowHCounter()
 {
-	cout << "Found " << m_VectorOfFilesH.size() << " files .H" << endl;
+    printf("Found %d files .H\n", m_VectorOfFilesH.size());
 
 	return;
 }
 
 void CFilesFinder::ShowCPPCounter()
 {
-	cout << "Found " << m_VectorOfFilesCPP.size() << " files .CPP" << endl;
+    printf("Found %d files .CPP\n", m_VectorOfFilesCPP.size());
 
 	return;
 }
