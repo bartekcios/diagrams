@@ -8,13 +8,11 @@
 
 using namespace std;
 
-CClass::CClass(string a_szName, string a_szFilesPathH, CFilesFinder * a_pFilesFinder)
-
+CClass::CClass(string a_szName, string a_szFilesPathH, CFilesFinder * a_pFilesFinder):
+    m_szName(a_szName),
+    m_szFilesPathH(a_szFilesPathH),
+    m_pFilesFinder(a_pFilesFinder)
 {
-	m_szName = a_szName;
-	m_szFilesPathH = a_szFilesPathH;
-	m_pFilesFinder = a_pFilesFinder;
-
     //cut m_szFilesPathH to file.h
 	int iPosition = m_szFilesPathH.size();
 	for (int i = iPosition-1; i > 0; i--)
@@ -25,7 +23,6 @@ CClass::CClass(string a_szName, string a_szFilesPathH, CFilesFinder * a_pFilesFi
 			break;
 		}
 	}
-	char * temp = &m_szFilesPathH[0];
     // copy file name without .h part
 	m_szFilesHName = m_szFilesPathH.substr(iPosition, m_szFilesPathH.size()-iPosition-2);
 	
@@ -43,29 +40,34 @@ bool CClass::FindFunctions()
 {
     //open file
 	string line;
-	ifstream myfile(m_szFilesPathH);
+    ifstream myfile(m_szFilesPathH);
+
+    //check if line is commented
+    std::smatch mCommented;
+    std::regex eCommented("([//\*]|[////])(.*)(\\()");
+    // variables to regex
+    std::smatch mFinder;
+    std::regex eFinder("([^ ]*)([a-zA-Z0-9])(\\()");
+
 	if (myfile.is_open())
 	{
 
 		while (getline(myfile, line))
 		{
-            //check if line is commented
-            std::smatch m;
-            std::regex e("([//\*]|[////])(.*)(\\()");
 
-            if (!std::regex_search(line, m, e))
+
+            if (!std::regex_search(line, mCommented, eCommented))
             {
-                // variables to regex
-                std::smatch m;
-                std::regex e("([^ ]*)(\w*)(\\()");
-                if (std::regex_search(line, m, e))
+
+                if (std::regex_search(line, mFinder, eFinder))
                 {
-                    if ("(" != m[0] && "$(" != m[0])
+                    if ("(" != mFinder[0] && "$(" != mFinder[0])
                     {
 
+                        /*
                         //check if exists 
                         bool fExists = false;
-                        /*
+
                         for (int i = 0; i < m_funcFunctions.size(); i++)
                         {
                             if (m[0] == m_funcFunctions[i].szName)
@@ -82,12 +84,12 @@ bool CClass::FindFunctions()
                         }
                         */
                         SFunction sFunction;
-                        sFunction.szName = m[0];
+                        sFunction.szName = mFinder[0];
                         m_funcFunctions.push_back(sFunction);
 
                     }
 
-                    line = m.suffix().str();
+                    line = mFinder.suffix().str();
                 }
             }
 		}
@@ -109,39 +111,36 @@ bool CClass::FindCalls()
 {
     
 	//open file
-	string line;
-	ifstream myfile(m_szFilesPathCPP);
-	if (myfile.is_open())
+    string szLine;
+    ifstream ifMyFile(m_szFilesPathCPP);
+    if (ifMyFile.is_open())
 	{
-        // variables to regex, every line should be searched, creates string with all functions in form ::f|::f1|::f2...
-        string szConditions = "";
-        for (int i = 0; i < m_funcFunctions.size(); i++)
-        {
-            szConditions += "(";
-            szConditions += m_funcFunctions[i].szName;
-            szConditions.erase(szConditions.size() - 1, 1);
-            szConditions += ")";
-            if (m_funcFunctions.size() - 1 != i)
-            {
-                szConditions += "|";
-            }
-        }
-        
-        std::smatch m;
-        std::regex e(szConditions);
+        string szConditions = "::([a-zA-Z0-9~])+(\())";
+        std::smatch mFunction;
+        std::regex eFunction(szConditions);
+
+        std::smatch mPrev;
+        std::regex ePrev("\\{");
+        std::smatch mNext;
+        std::regex eNext("\\}");
+
+        string szAll = "([a-zA-Z0-9~])+(\\()";
+        std::smatch mAll;
+        std::regex eAll(szAll);
+
         int iCurrFuncId = 0;
-		bool fFound = false;					                    // if function found
+        bool fFoundFunction = false;					                    // if function found
 
         int iCounterPrev = 0;										// No { chars
         int iCounterNext = 0;										// No } chars
         int iLinesCounter = 0;
-		while (getline(myfile, line))
+        while (getline(ifMyFile, szLine))
 		{
             iLinesCounter++;
 			//if function is not found
-			if (false == fFound)
+            if (false == fFoundFunction)
 			{
-				if (std::regex_search(line, m, e))
+                if (std::regex_search(szLine, mFunction, eFunction))
 				{
                     // if any function found search which one
                     for (int i = 0; i < m_funcFunctions.size(); i++)
@@ -155,27 +154,22 @@ bool CClass::FindCalls()
 
                         std::smatch mFind;
                         std::regex eFind(szCondition);
-                        if (std::regex_search(line, mFind, eFind))
+                        if (std::regex_search(szLine, mFind, eFind))
                         {
                             iCurrFuncId = i;
-                            fFound = true;
+                            fFoundFunction = true;
                             break;
                         }
                     }
 
-					line = m.suffix().str();
+                    szLine = mFunction.suffix().str();
 				}
 			}
 			else
 			{
                 // if found - search calls
-
-                std::smatch mPrev;
-                std::regex ePrev("\\{");
-                string linePrev = line;
-                std::smatch mNext;
-                std::regex eNext("\\}");
-                string lineNext = line;
+                string linePrev = szLine;
+                string lineNext = szLine;
 
                 // count No {} chars
                 while (std::regex_search(linePrev, mPrev, ePrev))
@@ -188,50 +182,31 @@ bool CClass::FindCalls()
                     iCounterNext++;
                     lineNext = mNext.suffix().str();
                 }
-                /*
-                // check each line for all functions - firstly for all functions, after that each function
-                // variables to regex, every line should be searched, creates string with all functions in form f|f1|f2...
-                string szConditions = "";
-                for (int i = 0; i < m_funcFunctions.size(); i++)
-                {
-                    szConditions += "(";
-                    szConditions += m_funcFunctions[i].szName;
-                    szConditions[szConditions.size() - 1] = '\\';
-                    szConditions += '(';
-                    szConditions += ")";
-                    if (m_funcFunctions.size() - 1 != i)
-                    {
-                        szConditions += "|";
-                    }
-                }
-                */
-                string szLLL = "([^ ]+)(\\()";
-                std::smatch mAll;
-                std::regex eAll(szLLL);
-                if (std::regex_search(line, mAll, eAll) && 0 != iCounterPrev)
+
+                if (std::regex_search(szLine, mAll, eAll) && 0 != iCounterPrev)
                 {
 					if (("if(" != mAll[0]) && ("gate(" != mAll[0]) && ("LOG_INF(" != mAll[0]) && ("LOG_ERR(" != mAll[0]) && ("LOG_WRN(" != mAll[0]) && ("LOG_DBG(" != mAll[0]) && ("(" != mAll[0]) && ("switch" != mAll[0]))
                     {
 						//check if function already exists
 						bool fExist = false;
-						for (int i = 0; i < m_funcFunctions[iCurrFuncId].szCalls.size(); i++)
+                        /*for (int i = 0; i < m_funcFunctions[iCurrFuncId].szCalls.size(); i++)
 						{
 							if (mAll[0] == m_funcFunctions[iCurrFuncId].szCalls[i])
 							{
 								fExist = true;
 							}
-						}
+                        }*/
 						if (false == fExist)
 						{
 							m_funcFunctions[iCurrFuncId].szCalls.push_back(mAll[0]);
 						}
                     }
-                    line = m.suffix().str();                  
+                    szLine = mFunction.suffix().str();
                 }
                 // check if is end of function
                 if (0 != iCounterPrev && iCounterPrev == iCounterNext)
                 {
-                    fFound = false;
+                    fFoundFunction = false;
                     iCounterPrev = 0;
                     iCounterNext = 0;
 
@@ -244,7 +219,7 @@ bool CClass::FindCalls()
 			}
 		}
         
-		myfile.close();
+        ifMyFile.close();
         SaveAllCalls();
         //SaveCalls("getDiscSettOptList(");
         printf("smth\n");
@@ -278,6 +253,7 @@ void CClass::ShowFunctions()
 	{
         printf("  %s\n", m_funcFunctions[i].szName.c_str());
 	}
+    printf("___  %d\n", m_funcFunctions.size());
 	return;
 }
 
@@ -371,6 +347,11 @@ bool CClass::SaveCalls(string a_szFunctionName)
     CreateGraph();
 
     return true;
+}
+
+bool CClass::AddCalls(string a_szFunctionName)
+{
+
 }
 
 bool CClass::CreateGraph()

@@ -89,6 +89,7 @@ bool CClassManager::FindFunctions()
             t[0] = GetTickCount();
         }
 		m_szClassesList[i].FindFunctions();
+        //m_szClassesList[i].ShowFunctions();
         if (false != fShowTimes)
         {
             t[1] = GetTickCount() - t[0];
@@ -113,11 +114,11 @@ bool CClassManager::FindCallsForFunctions()
     for (int i = 0; i < m_szClassesList.size(); i++)
     {
         
-        CClass * poClass = &m_szClassesList[i];
-        hThreadVector.push_back((HANDLE)_beginthread(ThreadProc, 0, (void*)poClass));
-        //m_szClassesList[i].FindCalls();
+        //CClass * poClass = &m_szClassesList[i];
+        //hThreadVector.push_back((HANDLE)_beginthread(ThreadProc, 0, (void*)poClass));
+        m_szClassesList[i].FindCalls();
     }
-    WaitForMultipleObjects(hThreadVector.size(), &hThreadVector[0], true, INFINITE);
+    //WaitForMultipleObjects(hThreadVector.size(), &hThreadVector[0], true, INFINITE);
     printf("\n\n");
 
     return true;

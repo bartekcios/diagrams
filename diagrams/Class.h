@@ -22,6 +22,7 @@ public:
 	void ShowFunctions();							// shows all functions
     bool SaveAllCalls();                            // saves all calls to file
     bool SaveCalls(string a_szFunctionName);        // saves calls from a_szFunctionName to file
+    bool AddCalls(string a_szFunctionName);         // used recursively to get calls for 1 function
 	bool CreateGraph();								// creates graph for each class
     int FindFunctionInVector(string a_szFunctionName);// returns functions index if exists
 	string m_szName;
