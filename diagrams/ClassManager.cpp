@@ -99,7 +99,7 @@ bool CClassManager::FindFunctions()
 
 	return true;
 }
-
+/*
 void __cdecl ThreadProc(void * Args)
 {
     CClass * poClass = (CClass*)Args;
@@ -107,16 +107,21 @@ void __cdecl ThreadProc(void * Args)
 
     _endthread();
 }
-
+*/
 bool CClassManager::FindCallsForFunctions()
 {
     vector <HANDLE> hThreadVector;
+    DWORD t[2];
+
     for (int i = 0; i < m_szClassesList.size(); i++)
     {
-        
+        t[1] = GetTickCount();
         //CClass * poClass = &m_szClassesList[i];
         //hThreadVector.push_back((HANDLE)_beginthread(ThreadProc, 0, (void*)poClass));
         m_szClassesList[i].FindCalls();
+
+        t[2] = GetTickCount() - t[1];
+        printf("oClassManager.FindCallsForFunctions() :%d\n", t[2]);
     }
     //WaitForMultipleObjects(hThreadVector.size(), &hThreadVector[0], true, INFINITE);
     printf("\n\n");

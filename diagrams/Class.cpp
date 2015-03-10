@@ -54,8 +54,6 @@ bool CClass::FindFunctions()
 
 		while (getline(myfile, line))
 		{
-
-
             if (!std::regex_search(line, mCommented, eCommented))
             {
 
@@ -63,14 +61,12 @@ bool CClass::FindFunctions()
                 {
                     if ("(" != mFinder[0] && "$(" != mFinder[0])
                     {
-
-                        /*
                         //check if exists 
                         bool fExists = false;
 
                         for (int i = 0; i < m_funcFunctions.size(); i++)
                         {
-                            if (m[0] == m_funcFunctions[i].szName)
+                            if (mFinder[0] == m_funcFunctions[i].szName)
                             {
                                 fExists = true;
                             }
@@ -79,14 +75,14 @@ bool CClass::FindFunctions()
                         if (false == fExists)
                         {
                             SFunction sFunction;
-                            sFunction.szName = m[0];
+                            sFunction.szName = mFinder[0];
                             m_funcFunctions.push_back(sFunction);
                         }
-                        */
+                        /*
                         SFunction sFunction;
                         sFunction.szName = mFinder[0];
                         m_funcFunctions.push_back(sFunction);
-
+                        */
                     }
 
                     line = mFinder.suffix().str();
@@ -109,15 +105,15 @@ bool CClass::FindFunctions()
 
 bool CClass::FindCalls()
 {
-    
+    bool fRetVal = false;
+
 	//open file
     string szLine;
     ifstream ifMyFile(m_szFilesPathCPP);
     if (ifMyFile.is_open())
 	{
-        string szConditions = "::([a-zA-Z0-9~])+(\())";
         std::smatch mFunction;
-        std::regex eFunction(szConditions);
+        std::regex eFunction("::([a-zA-Z0-9~])+(\())");
 
         std::smatch mPrev;
         std::regex ePrev("\\{");
@@ -172,6 +168,7 @@ bool CClass::FindCalls()
                 string lineNext = szLine;
 
                 // count No {} chars
+
                 while (std::regex_search(linePrev, mPrev, ePrev))
                 {
                     ++iCounterPrev;
@@ -179,7 +176,7 @@ bool CClass::FindCalls()
                 }
                 while (std::regex_search(lineNext, mNext, eNext))
                 {
-                    iCounterNext++;
+                    ++iCounterNext;
                     lineNext = mNext.suffix().str();
                 }
 
@@ -189,13 +186,13 @@ bool CClass::FindCalls()
                     {
 						//check if function already exists
 						bool fExist = false;
-                        /*for (int i = 0; i < m_funcFunctions[iCurrFuncId].szCalls.size(); i++)
+                        for (int i = 0; i < m_funcFunctions[iCurrFuncId].szCalls.size(); i++)
 						{
 							if (mAll[0] == m_funcFunctions[iCurrFuncId].szCalls[i])
 							{
 								fExist = true;
 							}
-                        }*/
+                        }
 						if (false == fExist)
 						{
 							m_funcFunctions[iCurrFuncId].szCalls.push_back(mAll[0]);
@@ -212,24 +209,20 @@ bool CClass::FindCalls()
 
                     continue;
                 }
-                else
-                {
-
-                }
 			}
 		}
         
         ifMyFile.close();
-        SaveAllCalls();
+        //SaveAllCalls();
         //SaveCalls("getDiscSettOptList(");
         printf("smth\n");
 	}
 	else
 	{
         printf("Unable to open file: %s\n", m_szFilesPathH.c_str());
-		return false;
+        fRetVal = false;
 	}
-	return true;
+    return fRetVal;
 }
 
 bool CClass::FindCPPFile()
@@ -259,6 +252,8 @@ void CClass::ShowFunctions()
 
 bool CClass::SaveAllCalls()
 {
+    bool fRetVal = false;
+
     ofstream myfile;
 	m_szFilesPathDOT = "c:\\Qt\\" + m_szName + ".dot";
 	myfile.open(m_szFilesPathDOT, ios::trunc);
@@ -267,25 +262,28 @@ bool CClass::SaveAllCalls()
 		myfile << "digraph {" << endl;
 		myfile << "rankdir = LR;" << endl;
 
-    }
-    for (int i = 0; i < m_funcFunctions.size(); i++)
-    {
-        for (int j = 0; j < m_funcFunctions[i].szCalls.size(); j++)
+        for (int i = 0; i < m_funcFunctions.size(); i++)
         {
-            string F = m_funcFunctions[i].szName;
-            string S = m_funcFunctions[i].szCalls[j];
+            for (int j = 0; j < m_funcFunctions[i].szCalls.size(); j++)
+            {
+                string F = m_funcFunctions[i].szName;
+                string S = m_funcFunctions[i].szCalls[j];
 
-            F.erase(F.size() - 1, 1);
-            S.erase(S.size() - 1, 1);
+                F.erase(F.size() - 1, 1);
+                S.erase(S.size() - 1, 1);
 
-			myfile << "\"" << F << "\"" << " -> " << "\"" << S << "\"" << ";" << endl;
+                myfile << "\"" << F << "\"" << " -> " << "\"" << S << "\"" << ";" << endl;
+            }
         }
+        myfile << "}" << endl;
+        myfile.close();
+        printf("Class %s saved to file\n", m_szName.c_str());
+
+        fRetVal = true;
     }
-	myfile << "}" << endl;
-    myfile.close();
-    printf("Class %s saved to file\n", m_szName.c_str());
-	CreateGraph();
-    return true;
+
+    fRetVal &= CreateGraph();
+    return fRetVal;
 }
 
 bool CClass::SaveCalls(string a_szFunctionName)
@@ -356,14 +354,15 @@ bool CClass::AddCalls(string a_szFunctionName)
 
 bool CClass::CreateGraph()
 {
+    bool fRetVal = true;
 	
 	//create command
 	string szCommand = m_szGraphVizPath + "dot" + " -Tpng " + m_szFilesPathDOT + " -o " + m_szGraphVizPath + m_szName + ".png";
 
-	system(szCommand.c_str());
+    fRetVal = system(szCommand.c_str());
     printf("Graph created\n");
 
-	return true;
+    return fRetVal;
 }
 
 int CClass::FindFunctionInVector(string a_szFunctionName)
